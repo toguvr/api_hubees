@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - mongodb:/data/db/mongo
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis
+    volumes:
+      - redisdb:/data/db/redis
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres
+    container_name: pg_hubees
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=new
+      - POSTGRES_DB=hubees
+      - PGPORT=5432
+    volumes:
+      - postgresdb:/data/db/postgres
+
+  app:
+    build: .
+    container_name: api_hubees
+    restart: always
+    ports:
+      - 3333:3333
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    links:
+      - postgres
+    depends_on:
+      - postgres
+
+volumes:
+  mongodb:
+    driver: local
+
+  redisdb:
+    driver: local
+    
+  postgresdb:
+    driver: local

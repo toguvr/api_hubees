@@ -1,0 +1,16 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+
+# tmp/*
+# !tmp/.gitkeep
+# .idead/
+# .vscode/
+# .env
+# node_modules/
+# build/
+# temp/
+# ormconfig.json
+# dist
+
