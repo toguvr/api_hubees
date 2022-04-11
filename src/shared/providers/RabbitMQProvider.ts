@@ -1,7 +1,7 @@
 import rabbitmq from "amqplib";
 
 function connect() {
-  return rabbitmq.connect("amqp://localhost").then((conn) => {
+  return rabbitmq.connect(process.env.RABBITMQ_URL).then((conn) => {
     return conn.createChannel();
   });
 }

@@ -20,7 +20,7 @@ export class ShowProductByFieldService {
             equals: value,
           },
         },
-        include: { stock: true },
+        include: { stocks: true },
       });
 
       if (!allInsertsOfThisProductOnStock) {

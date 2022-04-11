@@ -2,18 +2,18 @@ import { prisma } from "../../../databases/prismaClient";
 import { sendToQueue } from "../../../shared/providers/RabbitMQProvider";
 
 interface ICreateStock {
-  productId: string;
+  product_id: string;
   entry: boolean;
   quantity: number;
 }
 
 export class CreateStockService {
-  async execute({ productId, entry, quantity }: ICreateStock) {
+  async execute({ product_id, entry, quantity }: ICreateStock) {
     const alreadyExistsProduct = await prisma.product.findFirst({
       where: {
-        id: productId,
+        id: product_id,
       },
-      include: { stock: true },
+      include: { stocks: true },
     });
 
     if (!alreadyExistsProduct) {
@@ -21,13 +21,13 @@ export class CreateStockService {
     }
 
     if (!entry) {
-      const totalEntriesOfThisProduct = alreadyExistsProduct?.stock
+      const totalEntriesOfThisProduct = alreadyExistsProduct?.stocks
         .filter((stock) => stock.entry)
         .reduce((acumulador, valorAtual) => {
           return acumulador + Number(valorAtual.quantity);
         }, 0);
 
-      const totalExitsOfThisProduct = alreadyExistsProduct?.stock
+      const totalExitsOfThisProduct = alreadyExistsProduct?.stocks
         .filter((stock) => !stock.entry)
         .reduce((acumulador, valorAtual) => {
           return acumulador + Number(valorAtual.quantity);
@@ -41,7 +41,7 @@ export class CreateStockService {
     }
 
     const stock = await prisma.stock.create({
-      data: { entry, productId, quantity },
+      data: { entry, productId: product_id, quantity },
     });
 
     return stock;

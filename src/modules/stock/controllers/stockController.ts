@@ -7,12 +7,12 @@ import { UpdateStockService } from "../services/updateStockService";
 
 export class StockController {
   async create(request: Request, response: Response) {
-    const { productId, entry, quantity } = request.body;
+    const { product_id, entry, quantity } = request.body;
 
     const createStockService = new CreateStockService();
 
     const result = await createStockService.execute({
-      productId,
+      product_id,
       entry,
       quantity,
     });

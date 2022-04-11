@@ -23,9 +23,6 @@ services:
       - "6379:6379"
     environment:
       - REDIS_PASSWORD=123456
-      - REDIS_MASTER_PASSWORD=123456
-      - REDIS_MASTER_PORT_NUMBER=6379
-      - REDIS_REPLICATION_MODE=master
 
   rabbitmq:
     image: rabbitmq
@@ -68,6 +65,13 @@ services:
       - redis
       - mongo
       - rabbitmq
+    environment:
+      - DATABASE_URL=postgresql://postgres:new@postgres:5432/hubees?schema=public
+      - MONGO_URL=mongodb://hubees:123456@mongo:27017/mongo_hubees
+      - RABBITMQ_URL=amqp://rabbitmq
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASS=123456
 
 volumes:
   mongodb:

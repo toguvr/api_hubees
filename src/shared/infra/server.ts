@@ -16,7 +16,9 @@ consume("extract", (message: ConsumeMessage) => {
 
   const extract = new Extract({
     title: quantity + " " + name,
+    product: name,
     price_un: Number(price),
+    quantity: Number(quantity),
     total_price: Number(quantity) * Number(price),
   });
 

@@ -6,20 +6,20 @@ export class ShowProductWithStockService {
       where: {
         id: product_id,
       },
-      include: { stock: true },
+      include: { stocks: true },
     });
 
     if (!allInsertsOfThisProductOnStock) {
       throw new Error("Product not exists!");
     }
 
-    const totalEntriesOfThisProduct = allInsertsOfThisProductOnStock?.stock
+    const totalEntriesOfThisProduct = allInsertsOfThisProductOnStock?.stocks
       .filter((stock) => stock.entry)
       .reduce((acumulador, valorAtual) => {
         return acumulador + Number(valorAtual.quantity);
       }, 0);
 
-    const totalExitsOfThisProduct = allInsertsOfThisProductOnStock?.stock
+    const totalExitsOfThisProduct = allInsertsOfThisProductOnStock?.stocks
       .filter((stock) => !stock.entry)
       .reduce((acumulador, valorAtual) => {
         return acumulador + Number(valorAtual.quantity);
