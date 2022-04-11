@@ -9,7 +9,6 @@ services:
     environment:
       - MONGODB_USERNAME=hubees
       - MONGODB_PASSWORD=123456
-      - MONGODB_ROOT_PASSWORD=123456
       - MONGODB_DATABASE=mongo_hubees
     volumes:
       - mongodb:/data/db/mongo
@@ -21,11 +20,6 @@ services:
       - redisdb:/data/db/redis
     ports:
       - "6379:6379"
-    environment:
-      - REDIS_PASSWORD=123456
-      - REDIS_MASTER_PASSWORD=123456
-      - REDIS_MASTER_PORT_NUMBER=6379
-      - REDIS_REPLICATION_MODE=master
 
   rabbitmq:
     image: rabbitmq

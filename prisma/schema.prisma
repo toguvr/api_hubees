@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64", "linux-arm64-openssl-1.1.x"]
 }
 
 datasource db {
@@ -11,17 +12,22 @@ datasource db {
 }
 
 model Product {
-  id          String    @id @default(uuid())
-  name        String    @unique
+  id          String  @id @default(uuid())
+  name        String  @unique
   description String?
-  Balance     Balance[]
+  price       Decimal @default(0) @db.Money
+  stocks      Stock[]
+
+  @@map("product")
 }
 
-model Balance {
-  id          String   @id @default(uuid())
-  productId   String
-  product     Product? @relation(fields: [productId], references: [id])
-  description String?
-  type        String
-  quantity    Int
+model Stock {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product? @relation(fields: [productId], references: [id])
+  entry     Boolean  @default(false)
+  quantity  Int      @default(1)
+
+
+  @@map("stock")
 }
