@@ -9,6 +9,16 @@ interface IFieldProduct {
 
 export class ShowProductByFieldService {
   async execute({ field, value }: IFieldProduct) {
+    if (
+      field !== "id" &&
+      field !== "name" &&
+      field !== "description" &&
+      field !== "price"
+    ) {
+      throw new Error(
+        "You only can search for field id, name, description or price!"
+      );
+    }
     const cacheKey = `search-fields:${field}:${value}`;
 
     let allInsertsOfThisProductOnStock = await cacheProvider.recover(cacheKey);
